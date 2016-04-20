@@ -1,0 +1,120 @@
+<?php  if ($this->id > 0) { $idParam = "N&ordm;" . $this->id;}else{$idParam = null;}?>
+<div class="initform" id="initform">
+	<div class="alert alert-error hidden" id="form-error-messages">
+		<button type="button" class="close" data-dismiss="alert">×</button>
+		<p id="my-error-messages"></p>
+	</div>
+	<h3><u>REGISTO DE MANUTENÇÃO CORRECTIVA <?=$idParam;?></u></h3>
+	<p class="bottom-15">&nbsp;
+	<span class ="pull-right" id="pop-info"><i class="icon icon-info-sign"> </i><span class="info-txt">Instruções</span></span>
+	</p>
+	<form enctype="application/x-www-form-urlencoded" name="input-form"
+		method="post" action="/process" id="p15-form" onsubmit="return validateInputForm()">
+		
+		<div class="bottom-15 clearfix">
+		<i class="icon-tags"></i> Tipo:
+		<br />
+    		<?=$this->form->getElement('tipo');?>
+         </div>   
+		
+		<table class="table">
+			<tr>
+				<td><i class="icon-calendar"></i> Data:</td>
+				<td><?=$this->form->getElement('data_abertura');?></td>
+				<td><i class="icon-cogs"></i> Secção:</td>
+				<td><?=$this->form->getElement('seccao');?></td>
+				<td><i class="icon-time"></i> Turno:</td>
+				<td><?=$this->form->getElement('turno');?></td>
+			</tr>
+		</table>
+
+		<div class="tabbable">
+			<!-- Only required for left/right tabs -->
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#tab1" data-toggle="tab"><i
+						class="icon-list-alt"></i> Descrição da Ocorrência</a></li>
+				<li><a href="#tab2" data-toggle="tab"><i class="icon-wrench"></i>
+						Intervenção Efectuada</a></li>
+				<li><a href="#tab3" data-toggle="tab"><i class="icon-retweet"></i>
+						Acção Correctiva</a></li>
+				<li><a href="#tab4" data-toggle="tab"><i class="icon-ok"></i>
+						Verificação Final</a></li>
+				<li><a href="#tab5" data-toggle="tab"><i class="icon-comment"></i>
+						Notas</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="tab1">
+             <?=$this->form->getElement('txt_descricao');?>
+					<ul class="nav_list">
+						<li><i class="icon-user"></i> Operador / Responsável:</li>
+						<li><?=$this->form->getElement('resp_descricao')->setAttribs(array('autocomplete' => "off"));?></li>
+						<li><i class="icon-calendar"></i> Data:</li>
+						<li><?=$this->form->getElement('data_descricao');?></li>
+					</ul>
+				</div>
+				<div class="tab-pane" id="tab2">
+                 <?=$this->form->getElement('txt_intervencao');?>
+					<ul class="nav_list">
+						<li><i class="icon-user"></i> Responsável pela intervenção:</li>
+						<li><?=$this->form->getElement('resp_intervencao')->setAttribs(array('autocomplete' => "off"));?></li>
+						<li><i class="icon-calendar"></i> Data:</li>
+						<li><?=$this->form->getElement('data_intervencao');?></li>
+					</ul>
+				</div>
+				<div class="tab-pane" id="tab3">
+                      <?=$this->form->getElement('txt_melhoria');?>
+					<ul class="nav_list">
+						<li><i class="icon-user"></i> Por::</li>
+						<li><?=$this->form->getElement('resp_melhoria')->setAttribs(array('autocomplete' => "off"));?></li>
+						<li><i class="icon-calendar"></i> Data:</li>
+						<li><?=$this->form->getElement('data_melhoria');?></li>
+					</ul>
+				</div>
+				<div class="tab-pane" id="tab4">
+					<ul class="nav_list">
+						<li><i class="icon-user"></i> Resp. do sector ou substituto:</li>
+						<li><?=$this->form->getElement('resp_verif_final')->setAttribs(array('autocomplete' => "off"));?></li>
+						<li><i class="icon-calendar"></i> Data:</li>
+						<li><?=$this->form->getElement('data_verif_final');?></li>
+					</ul>
+				</div>
+				<div class="tab-pane" id="tab5">
+                  <?=$this->form->getElement('notas');?>
+				</div>
+			</div>
+		</div>
+
+		<div class="center">
+<?php
+switch ($this->actionName) {
+    case 'index':
+    case 'edit':
+        echo $this->form->getElement('submit');
+        break;
+    
+    case 'view':
+        echo '<a class="btn btn-warning" href="/index/pdf/' . $this->id .'">Criar PDF do Registo</a>';
+        break;
+    
+    case 'search':
+        echo '<a class="btn btn-warning right-5" href="/index/pdf/' . $this->id .'">Criar PDF do Registo</a>';
+        echo '<a class="btn btn-info" href="#authModalEdit" data-toggle="modal" data-target="#authModal-' . $this->id .'">Editar</a>';
+        break;
+}
+
+?>
+</div>
+<?=$this->form->getElement('id');?>
+</form>
+<?php if ($this->actionName == "search"){echo $this->partial('partials/auth.phtml', array('id' => $this->id));}?>
+</div>
+
+<script type="text/javascript">
+	$(function() {
+		var availableTags = [<?=$this->pessoal;?>];
+		 $("#resp_descricao").typeahead({source: availableTags});
+		 $("#resp_intervencao").typeahead({source: availableTags});
+		 $("#resp_melhoria").typeahead({source: availableTags});
+		 $("#resp_verif_final").typeahead({source: availableTags});
+	});
+</script>

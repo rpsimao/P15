@@ -1,0 +1,20 @@
+<div class="modal" id="authModal-<?=$this->id;?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="myModalLabel">Autenticação</h3>
+	</div>
+	<div class="modal-body">
+	 <div class="alert alert-info"><i class="icon-lock"> </i><b>Recurso protegido.</b><br> Precisa de estar autenticado para proceder às alterações.</div>
+		<p>Insira a sua password:</p>
+		<form class="form-inline" method="post" action="/index/edit/" onsubmit="return validateAuthForm(<?=$this->id;?>)">
+          <input type="password" name="password" id="password-auth-<?=$this->id;?>" class="input-small" placeholder="password" />
+          <input type="hidden" id="id" name="id" value="<?=$this->id;?>" />      
+  <button type="submit" class="btn">Enviar</button>
+</form>
+<span id="auth-error-msg-<?=$this->id;?>"></span>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">Fechar</button>
+		
+	</div>
+</div>

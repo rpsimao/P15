@@ -1,0 +1,46 @@
+<?php if (count($this->messages) > 0): ?>
+<?php if ($this->messages[0] == "error"): ?>
+<?=$this->FlashInfo('error', $this->messages[1]);?>
+<?php elseif ($this->messages[0] == "success"):?>
+<?=$this->FlashInfo('success', $this->messages[1]);?>
+<?php else:?>
+<?=$this->FlashInfo('info', $this->messages[1]);?>
+<?php endif;?>
+<?php endif;?>
+<div class="container-fluid mywhite">
+	<div class="row-fluid">
+		<div class="span12 ">
+		<h3>Listagem Registos Manutenção</h3>
+			<table class="table table-striped txtsmall">
+				<tr>
+				    <th><i class="icon-file icon-black"></i> Nº</th>
+				    <th><i class="icon-list-alt sp-right-5"></i>Descrição</th>
+					<th><i class="icon-calendar sp-right-5"></i>Data</th>
+					<th><i class="icon-edit sp-right-5"></i>Editar</th>
+					<th><i class="icon-print icon-black"></i> Imprimir</th>
+				</tr>
+			     <?php foreach ($this->p15 as $p15):?>
+			    <tr>
+			        <td><?=$p15['id']?></td>
+			        <td><a href="/index/view/<?=$p15['id']?>"><i class="icon-eye-open icon-black" style="cursor: pointer;"></i></a>&nbsp;<?=RPS_Helpers_Transform_ShortText::reduce($p15['txt_descricao'], 40);?></td>
+					<td><?=$p15['data_abertura']?></td>
+					<td><a class="btn btn-mini btn-info" href="#authModalEdit" data-toggle="modal" data-target="#authModal-<?=$p15['id'];?>">Editar</a>
+					<td><a href="/index/pdf/<?=$p15['id']?>" class="btn btn-mini" target="_blank"><i class="icon-print icon-black" style="cursor: pointer;"></i></a></td>
+                </tr>
+		        <?php endforeach;?>
+		</table>
+		</div>
+	</div>
+
+
+<div class="pagination-div">
+<?=$this->paginationControl($this->p15, 'Sliding', 'pagination/pagination.phtml');?>
+</div>
+
+</div>
+
+<?php echo $this->partialLoop('partials/auth.phtml', $this->p15) ?>
+
+
+
+
